@@ -39,8 +39,9 @@
 		<dependency>
 			<groupId>com.github.LushMCCode</groupId>
 			<artifactId>LushCore</artifactId>
-			<version>-SNAPSHOT</version>
+			<version>master-0.0.1-SNAPSHOT</version>
 		</dependency>
+
 	</dependencies>
 
 
