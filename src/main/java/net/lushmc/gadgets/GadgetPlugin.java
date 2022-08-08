@@ -1,10 +1,5 @@
 package net.lushmc.gadgets;
 
-<<<<<<< Updated upstream
-public class GadgetPlugin {
-=======
-import org.bukkit.plugin.java.JavaPlugin;
-
 public class GadgetPlugin extends JavaPlugin {
 
 	@Override
@@ -15,6 +10,5 @@ public class GadgetPlugin extends JavaPlugin {
 		new AdminCommands(this, "lush");
 		new PlayerCommands(this, "console");
 	}
->>>>>>> Stashed changes
 
 }
