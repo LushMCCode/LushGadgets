@@ -1,5 +1,13 @@
 package net.lushmc.gadgets;
 
+
+import org.bukkit.plugin.java.JavaPlugin;
+
+import net.lushmc.core.commands.AdminCommands;
+import net.lushmc.core.commands.PlayerCommands;
+import net.lushmc.core.utils.CoreUtils;
+
+
 public class GadgetPlugin extends JavaPlugin {
 
 	@Override
