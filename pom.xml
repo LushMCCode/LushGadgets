@@ -39,7 +39,11 @@
 		<dependency>
 			<groupId>com.github.LushMCCode</groupId>
 			<artifactId>LushCore</artifactId>
+<<<<<<< Updated upstream
 			<version>-SNAPSHOT</version>
+=======
+			<version>alpha</version>
+>>>>>>> Stashed changes
 		</dependency>
 	</dependencies>
 
