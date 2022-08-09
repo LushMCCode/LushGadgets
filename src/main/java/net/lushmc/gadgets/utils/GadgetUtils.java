@@ -59,7 +59,6 @@ public class GadgetUtils {
 				return null;
 			}
 		}
-
 	}
 
 }
