@@ -10,7 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import net.lushmc.core.utils.CoreUtils;
 import net.lushmc.gadgets.commands.listeners.AdminCommandTabCompleter;
-import net.lushmc.gadgets.utils.gadgets.GadgetUtils;
+import net.lushmc.gadgets.utils.GadgetUtils;
 
 public class AdminCommands implements CommandExecutor {
 
@@ -40,16 +40,12 @@ public class AdminCommands implements CommandExecutor {
 			}
 
 			if (GadgetUtils.getGadget(args[0]) != null) {
-				try {
-					Player player = args.length == 1 ? (Player) sender : Bukkit.getPlayer(args[1]);
-					if (player == null) {
-						sender.sendMessage(CoreUtils.prefixes("gadgets") + "That player doesn't seem to be online.");
-						return true;
-					}
-					player.getInventory().setItem(0, GadgetUtils.getGadget(args[0]).getCustomItem().getItem(player));
-				} catch (NullPointerException ex) {
-					sender.sendMessage(CoreUtils.prefixes("gadgets") + "There was an error. Is that player online?");
+				Player player = args.length == 1 ? (Player) sender : Bukkit.getPlayer(args[1]);
+				if (player == null) {
+					sender.sendMessage(CoreUtils.prefixes("gadgets") + "That player doesn't seem to be online.");
+					return true;
 				}
+				player.getInventory().setItem(0, GadgetUtils.getGadget(args[0]).getCustomItem().getItem(player));
 			}
 
 		}

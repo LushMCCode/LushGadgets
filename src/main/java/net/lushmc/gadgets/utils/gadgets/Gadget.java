@@ -13,6 +13,7 @@ public class Gadget {
 	String id;
 
 	public Gadget(String id) {
+		this.id = id;
 		init();
 	}
 

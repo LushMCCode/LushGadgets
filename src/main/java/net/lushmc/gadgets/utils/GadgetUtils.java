@@ -1,7 +1,10 @@
-package net.lushmc.gadgets.utils.gadgets;
+package net.lushmc.gadgets.utils;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import net.lushmc.gadgets.utils.gadgets.BoomBoomGadget;
+import net.lushmc.gadgets.utils.gadgets.Gadget;
 
 public class GadgetUtils {
 
