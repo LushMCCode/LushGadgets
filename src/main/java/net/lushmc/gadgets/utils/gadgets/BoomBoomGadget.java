@@ -23,7 +23,8 @@ public class BoomBoomGadget extends Gadget {
 		 */
 		item = new CustomItem(Material.TNT);
 		;
-		item.setDisplayName(CoreChatUtils.fade("FFFFFF", "FF5555", "BOOM BOOM", true, false, false, false, false));
+		item.setDisplayName(CoreChatUtils.fade("FFFFFF", "FFFF55", "BOOM", true, false, false, false, false)
+				+ CoreChatUtils.fade("FFFF55", "FF5555", " BOOM", true, false, false, false, false));
 //		item.setDisplayName("&F&LBO&E&LOM &6&LBO&C&LOM");
 		List<String> lore = new ArrayList<>();
 		lore.add("&7Gadget-ID: " + id);
