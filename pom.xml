@@ -1,15 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>net.lushmc</groupId>
-	<artifactId>lush-core</artifactId>
+	<artifactId>lush-gadgets</artifactId>
 	<version>0.5</version>
-	<name>LushCore</name>
-	<properties>
-		<rootdir>/</rootdir>
-	</properties>
+
+	<name>LushGadgets</name>
 	<url>https://www.lushmc.net</url>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<repositories>
+		<repository>
+			<id>LushMCCode-LushCore</id>
+			<url>https://github.com/LushMCCode/LushCore/raw/master</url>
+		</repository>
 		<repository>
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
@@ -18,12 +24,14 @@
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
+		<repository>
+			<id>placeholderapi</id>
+			<url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+		</repository>
+
 	</repositories>
 
 	<dependencies>
-		<!--This adds the Spigot API artifact to the build -->
-
-
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
@@ -31,22 +39,19 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.MilkBowl</groupId>
-			<artifactId>VaultAPI</artifactId>
-			<version>1.7</version>
-			<scope>provided</scope>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.LushMCCode</groupId>
-			<artifactId>LushCore</artifactId>
-			<version>alpha</version>
+			<groupId>net.lushmc</groupId>
+			<artifactId>lush-core</artifactId>
+			<version>0.5</version>
 		</dependency>
-
 	</dependencies>
-
-
 	<build>
-		<finalName>LushGadgets</finalName>
+		<finalName>${name}</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>

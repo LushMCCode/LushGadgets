@@ -1,0 +1,12 @@
+name: LushGadgets
+author: QuickScythe
+version: 0.0.1
+description: Gadget plugin for LushMC
+api-version: 1.16
+api: Spigot
+depend:
+- LushCore
+main: net.lushmc.gadgets.GadgetPlugin
+commands:
+   gadget:
+      usage: /gadget <gadget-id> [player]
