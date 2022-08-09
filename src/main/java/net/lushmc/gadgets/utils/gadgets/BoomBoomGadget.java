@@ -21,7 +21,7 @@ public class BoomBoomGadget extends Gadget {
 		 * Create Item
 		 */
 		item = new CustomItem(Material.TNT);
-		item.setDisplayName("&c&lBoom Boom");
+		item.setDisplayName("&F&LBO&E&LOM &6&LBO&C&LOM");
 		List<String> lore = new ArrayList<>();
 		lore.add("&7Gadget-ID: " + id);
 		item.setLore(lore);
