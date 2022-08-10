@@ -44,7 +44,8 @@ public class BoomBoomGadget extends Gadget {
 		Item bomb = player.getWorld().dropItem(player.getLocation(), item.getItem(player));
 		bomb.setPickupDelay(Integer.MAX_VALUE);
 		bomb.setVelocity(player.getEyeLocation().getDirection());
-		Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), new ExplosionRunnable(bomb, new Date().getTime()), 1);
+		Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(),
+				new ExplosionRunnable(bomb, new Date().getTime()), 0);
 	}
 
 	private class ExplosionRunnable implements Runnable {
