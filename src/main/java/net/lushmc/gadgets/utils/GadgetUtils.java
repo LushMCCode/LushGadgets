@@ -19,7 +19,17 @@ public class GadgetUtils {
 	public static void registerGadgets() {
 		if (!gadgets.isEmpty())
 			gadgets.clear();
-		gadgets.put("boomboom", new BoomBoomGadget("boomboom"));
+		addGadget(new BoomBoomGadget("boomboom"));
+	}
+
+	public static void addGadget(String id, Gadget gadget) {
+		gadgets.put(id, gadget);
+	}
+
+	public static void addGadget(Gadget gadget) {
+		if (gadget.getID().equals(""))
+			return;
+		gadgets.put(gadget.getID(), gadget);
 	}
 
 	public static Gadget getGadget(String gadgetId) {

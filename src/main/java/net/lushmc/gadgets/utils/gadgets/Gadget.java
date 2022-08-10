@@ -31,6 +31,10 @@ public class Gadget {
 		item.setLore(lore);
 	}
 
+	public String getID() {
+		return id;
+	}
+
 	public void activate(Player player, GadgetAction action) {
 
 	}
