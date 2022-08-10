@@ -65,7 +65,10 @@ public class BoomBoomGadget extends Gadget {
 				item.remove();
 				return;
 			}
-			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 2);
+//			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 2);
+			for (Player player : item.getWorld().getPlayers())
+				if (player.getLocation().distance(item.getLocation()) <= 60)
+					player.spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 0, 0, 0, 0, 2);
 			Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
 		}
 
