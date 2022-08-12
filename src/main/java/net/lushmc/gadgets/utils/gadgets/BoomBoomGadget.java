@@ -65,6 +65,7 @@ public class BoomBoomGadget extends Gadget {
 				item.remove();
 				return;
 			}
+			Bukkit.broadcastMessage("test");
 			item.getWorld().spawnParticle(Particle.CRIT, item.getLocation(), 1, 0, 0, 0, 2);
 			Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
 		}
