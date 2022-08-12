@@ -13,10 +13,13 @@ import org.bukkit.entity.Player;
 
 import net.lushmc.core.utils.chat.CoreChatUtils;
 import net.lushmc.core.utils.items.CustomItem;
+import net.lushmc.core.utils.particles.formats.DotFormat;
 import net.lushmc.gadgets.utils.GadgetUtils.GadgetAction;
 import net.lushmc.gadgets.utils.Utils;
 
 public class BoomBoomGadget extends Gadget {
+
+	DotFormat format = new DotFormat();
 
 	public BoomBoomGadget(String id) {
 		super(id);
@@ -65,8 +68,8 @@ public class BoomBoomGadget extends Gadget {
 				item.remove();
 				return;
 			}
-			Bukkit.broadcastMessage("test");
-			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 2);
+			format.spawnParticle(Particle.END_ROD, item.getLocation());
+//			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 2);
 			Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
 		}
 
