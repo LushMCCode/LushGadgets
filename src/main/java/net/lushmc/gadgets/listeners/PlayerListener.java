@@ -67,7 +67,7 @@ public class PlayerListener implements Listener {
 	public void onExplosion(EntityExplodeEvent e) {
 		if (e.getEntity().hasMetadata("gadget")) {
 			e.getEntity().remove();
-			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), new ExplosionRepair(e.blockList()), 20);
+			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), new ExplosionRepair(e.blockList()), 0);
 
 		}
 	}
