@@ -1,5 +1,6 @@
 package net.lushmc.gadgets.listeners;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -70,10 +71,20 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onEntityDamage(EntityDamageByEntityEvent e) {
 		if (e.getEntity() instanceof Player) {
+			long time = new Date().getTime();
 			// If there are any errors with detecting who killed who, check to see if player
 			// has metadata, remove it, then add new metadata
 			e.getEntity().setMetadata("last_damager", new FixedMetadataValue(Utils.getPlugin(), e.getDamager()));
 			e.getEntity().setMetadata("last_damage_cause", new FixedMetadataValue(Utils.getPlugin(), e.getCause()));
+			e.getEntity().setMetadata("last_damage_time", new FixedMetadataValue(Utils.getPlugin(), time));
+			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
+				if (e.getEntity().hasMetadata("last_damage_time")
+						&& e.getEntity().getMetadata("last_damage_time").get(0).value().equals(time)) {
+					e.getEntity().removeMetadata("last_damager", Utils.getPlugin());
+					e.getEntity().removeMetadata("last_damage_cause", Utils.getPlugin());
+					e.getEntity().removeMetadata("last_damage_time", Utils.getPlugin());
+				}
+			}, 3 * 20);
 		}
 		if (e.getCause().equals(DamageCause.ENTITY_EXPLOSION)) {
 			if (!(e.getEntity() instanceof Player))
@@ -89,7 +100,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent e) {
-		if (e.getEntity().hasMetadata("last_damager")) {
+		if (e.getEntity().hasMetadata("last_damage_time")) {
 			Entity damager = (Entity) e.getEntity().getMetadata("last_damager").get(0).value();
 			DamageCause cause = (DamageCause) e.getEntity().getMetadata("last_damage_cause").get(0).value();
 			String p1 = e.getEntity().getName();
@@ -106,6 +117,13 @@ public class PlayerListener implements Listener {
 			}
 
 			switch (cause) {
+			case LAVA:
+				a = "tried to swim in lava fighting";
+				break;
+			case FIRE:
+			case FIRE_TICK:
+				a = "burned to a crisp fighting";
+				break;
 			case BLOCK_EXPLOSION:
 			case ENTITY_EXPLOSION:
 				a = "was blown up by";
@@ -120,6 +138,12 @@ public class PlayerListener implements Listener {
 				a = "shot by";
 				x = "from " + c1 + e.getEntity().getLocation()
 						.distance(((Entity) ((Projectile) damager).getShooter()).getLocation()) + c2 + " blocks away";
+				break;
+			case VOID:
+				a = "fell into the void fighting";
+				break;
+			case THORNS:
+				a = "was pricked to death by";
 				break;
 			default:
 				a = "was killed by";
