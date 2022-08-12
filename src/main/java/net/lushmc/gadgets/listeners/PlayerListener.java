@@ -92,6 +92,7 @@ public class PlayerListener implements Listener {
 			for (Entry<Location, BlockData> e : blocks.entrySet()) {
 				loc = e.getKey();
 				loc.getBlock().setBlockData(e.getValue());
+				break;
 			}
 
 			if (loc != null) {
