@@ -64,7 +64,8 @@ public class BoomBoomGadget extends Gadget {
 
 		@Override
 		public void run() {
-			if (item.isOnGround()) {
+			if (item.isOnGround()
+					|| !item.getLocation().add(item.getVelocity()).getBlock().getType().equals(Material.AIR)) {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 					item.getWorld().createExplosion(item.getLocation(), 5f, false, false, item);
 					item.remove();
