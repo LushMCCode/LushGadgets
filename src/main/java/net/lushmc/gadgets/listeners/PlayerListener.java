@@ -84,7 +84,9 @@ public class PlayerListener implements Listener {
 		@Override
 		public void run() {
 			Block block = blocks.get(new Random().nextInt(blocks.size() - 1));
-			block.getLocation().getBlock().setBlockData(block.getBlockData());
+			Block other = block.getLocation().getBlock();
+			other.setType(block.getType());
+			other.setBlockData(block.getBlockData());
 			blocks.remove(block);
 			if (!blocks.isEmpty())
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), this, (new Random().nextInt(4) + 1) * 20);
