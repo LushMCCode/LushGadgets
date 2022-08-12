@@ -105,7 +105,7 @@ public class PlayerListener implements Listener {
 			if (loc != null) {
 				blocks.remove(loc);
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), this,
-						(new Random().nextInt(2) + 1) * (new Random().nextInt(5) + 15));
+						(new Random().nextInt(2) + 1) * (new Random().nextInt(5) + 5));
 			}
 
 		}
