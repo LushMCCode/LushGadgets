@@ -64,8 +64,11 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onEntityDamage(EntityDamageEvent e) {
-		if (e.getEntity() instanceof Player)
+		if (e.getEntity() instanceof Player) {
 			e.getEntity().setMetadata("last_damage_cause", new FixedMetadataValue(Utils.getPlugin(), e.getCause()));
+			e.getEntity().setMetadata("last_damage_time",
+					new FixedMetadataValue(Utils.getPlugin(), new Date().getTime()));
+		}
 	}
 
 	@EventHandler
