@@ -44,6 +44,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onExplosion(EntityExplodeEvent e) {
+		Bukkit.broadcastMessage(e.getEntity().getName());
 		if (e.getEntity() instanceof Item) {
 			Bukkit.broadcastMessage("Test");
 		}
