@@ -96,6 +96,8 @@ public class PlayerListener implements Listener {
 			String p2 = damager instanceof Player ? damager.getName() : "";
 			String a = "";
 			String x = "";
+			String c1 = "&a";
+			String c2 = "&7";
 			if (damager.hasMetadata("gadget")) {
 				Gadget g = (Gadget) damager.getMetadata("gadget").get(0).value();
 				if (g instanceof BoomBoomGadget)
@@ -109,22 +111,23 @@ public class PlayerListener implements Listener {
 				a = "was blown up by";
 				break;
 			case FALL:
-				a = "fell &a" + ((int) e.getEntity().getFallDistance()) + "&7 to their doom fighting";
+				a = "fell " + c1 + ((int) e.getEntity().getFallDistance()) + c2 + " to their doom fighting";
 				break;
 			case DROWNING:
 				a = "drowned fighting";
 				break;
 			case PROJECTILE:
 				a = "shot by";
-				x = "from " + e.getEntity().getLocation()
-						.distance(((Entity) ((Projectile) damager).getShooter()).getLocation());
+				x = "from " + c1 + e.getEntity().getLocation()
+						.distance(((Entity) ((Projectile) damager).getShooter()).getLocation()) + c2 + " blocks away";
+				break;
 			default:
 				a = "was killed by";
 				break;
 			}
 
-			Bukkit.broadcastMessage(CoreUtils.colorize("&a" + p1 + "&7" + " " + a + " " + "&a"
-					+ (p2 == "" ? "something" : p2) + "&7" + (x == "" ? "." : " " + x + ".")));
+			Bukkit.broadcastMessage(CoreUtils.colorize(c1 + p1 + c2 + " " + a + " " + c1 + (p2 == "" ? "something" : p2)
+					+ c2 + (x == "" ? "." : " " + x + ".")));
 		}
 	}
 
