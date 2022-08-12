@@ -1,11 +1,14 @@
 package net.lushmc.gadgets.listeners;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -67,30 +70,34 @@ public class PlayerListener implements Listener {
 	public void onExplosion(EntityExplodeEvent e) {
 		if (e.getEntity().hasMetadata("gadget")) {
 			e.getEntity().remove();
-			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), new ExplosionRepair(e.blockList()), 0);
+			HashMap<Location, BlockData> blocks = new HashMap<>();
+			for (Block block : e.blockList())
+				blocks.put(block.getLocation(), block.getBlockData());
+			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), new ExplosionRepair(blocks), 20);
 
 		}
 	}
 
 	public class ExplosionRepair implements Runnable {
 
-		List<Block> blocks;
+		HashMap<Location, BlockData> blocks;
 
-		public ExplosionRepair(List<Block> blocks) {
+		public ExplosionRepair(HashMap<Location, BlockData> blocks) {
 			this.blocks = blocks;
 		}
 
 		@Override
 		public void run() {
-			Block block = blocks.get(new Random().nextInt(blocks.size() - 1));
-			Block other = block.getLocation().getBlock();
-			Bukkit.broadcastMessage("Block: " + block.getType());
-			Bukkit.broadcastMessage("Other: " + other.getType());
-			other.setType(block.getType());
-			other.setBlockData(block.getBlockData());
-			blocks.remove(block);
-			if (!blocks.isEmpty())
+			Location loc = null;
+			for (Entry<Location, BlockData> e : blocks.entrySet()) {
+				loc = e.getKey();
+				loc.getBlock().setBlockData(e.getValue());
+			}
+
+			if (loc != null) {
+				blocks.remove(loc);
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), this, (new Random().nextInt(4) + 1) * 20);
+			}
 
 		}
 	}
