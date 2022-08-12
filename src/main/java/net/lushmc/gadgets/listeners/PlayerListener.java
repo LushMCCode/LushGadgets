@@ -67,9 +67,8 @@ public class PlayerListener implements Listener {
 		if (e.getEntity() instanceof Player) {
 			long time = new Date().getTime();
 			e.getEntity().setMetadata("last_damage_cause", new FixedMetadataValue(Utils.getPlugin(), e.getCause()));
-			e.getEntity().setMetadata("last_damage_time",
-					new FixedMetadataValue(Utils.getPlugin(), time));
-			
+			e.getEntity().setMetadata("last_damage_time", new FixedMetadataValue(Utils.getPlugin(), time));
+
 			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 				if (e.getEntity().hasMetadata("last_damage_time")
 						&& e.getEntity().getMetadata("last_damage_time").get(0).value().equals(time)) {
@@ -83,23 +82,25 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onEntityDamage(EntityDamageByEntityEvent e) {
-		if (e.getEntity() instanceof Player) {
-			
-			// If there are any errors with detecting who killed who, check to see if player
-			// has metadata, remove it, then add new metadata
-			e.getEntity().setMetadata("last_damager", new FixedMetadataValue(Utils.getPlugin(), e.getDamager()));
-			
-		}
-		if (e.getCause().equals(DamageCause.ENTITY_EXPLOSION)) {
-			if (!(e.getEntity() instanceof Player))
-				e.setCancelled(true);
-			else {
-				if (e.getDamager().hasMetadata("thrower")
-						&& ((Player) e.getDamager().getMetadata("thrower").get(0).value()).equals(e.getEntity())) {
-					e.setDamage(0.1);
+		Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
+			if (e.getEntity() instanceof Player) {
+
+				// If there are any errors with detecting who killed who, check to see if player
+				// has metadata, remove it, then add new metadata
+				e.getEntity().setMetadata("last_damager", new FixedMetadataValue(Utils.getPlugin(), e.getDamager()));
+
+			}
+			if (e.getCause().equals(DamageCause.ENTITY_EXPLOSION)) {
+				if (!(e.getEntity() instanceof Player))
+					e.setCancelled(true);
+				else {
+					if (e.getDamager().hasMetadata("thrower")
+							&& ((Player) e.getDamager().getMetadata("thrower").get(0).value()).equals(e.getEntity())) {
+						e.setDamage(0.1);
+					}
 				}
 			}
-		}
+		}, 1);
 	}
 
 	@EventHandler
