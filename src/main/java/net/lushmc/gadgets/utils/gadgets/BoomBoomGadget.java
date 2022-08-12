@@ -49,7 +49,7 @@ public class BoomBoomGadget extends Gadget {
 		bomb.setPickupDelay(Integer.MAX_VALUE);
 		bomb.setVelocity(player.getEyeLocation().getDirection());
 		Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(),
-				new ExplosionRunnable(bomb, player, new Date().getTime()), 0);
+				new ExplosionRunnable(bomb, player, this, new Date().getTime()), 0);
 
 	}
 
@@ -58,11 +58,13 @@ public class BoomBoomGadget extends Gadget {
 		long started;
 		Item item;
 		Player player;
+		Gadget gadget;
 
-		public ExplosionRunnable(Item item, Player player, long started) {
+		public ExplosionRunnable(Item item, Player player, Gadget gadget, long started) {
 			this.item = item;
 			this.player = player;
 			this.started = started;
+			this.gadget = gadget;
 		}
 
 		@Override
@@ -71,6 +73,7 @@ public class BoomBoomGadget extends Gadget {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 					item.getWorld().createExplosion(item.getLocation(), 5f, false, true, item);
 					item.setMetadata("thrower", new FixedMetadataValue(Utils.getPlugin(), player));
+					item.setMetadata("gadget", new FixedMetadataValue(Utils.getPlugin(), gadget));
 				}, 0);
 				return;
 			}
