@@ -15,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -57,6 +58,12 @@ public class PlayerListener implements Listener {
 				return;
 			}
 		}
+	}
+
+	@EventHandler
+	public void onEntityDamage(EntityDamageEvent e) {
+		if (e.getEntity() instanceof Player)
+			e.getEntity().setMetadata("last_damage_cause", new FixedMetadataValue(Utils.getPlugin(), e.getCause()));
 	}
 
 	@EventHandler
