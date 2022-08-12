@@ -102,10 +102,8 @@ public class PlayerListener implements Listener {
 				break;
 			}
 
-			Bukkit.broadcastMessage(CoreUtils.colorize(p1 + " was " + a + " " + p2 + (x == "" ? "." : " " + x + ".")));
-
-			Bukkit.broadcastMessage(CoreUtils.colorize("&a" + damager.getName()));
-			Bukkit.broadcastMessage(CoreUtils.colorize("&c" + cause.toString()));
+			Bukkit.broadcastMessage(CoreUtils.colorize(
+					"&a" + p1 + "&7" + " was " + a + " " + "&a" + p2 + "&7" + (x == "" ? "." : " " + x + ".")));
 		}
 	}
 
