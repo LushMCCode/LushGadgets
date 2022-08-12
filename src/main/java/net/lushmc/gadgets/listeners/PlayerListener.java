@@ -80,6 +80,7 @@ public class PlayerListener implements Listener {
 			HashMap<Location, BlockData> blocks = new HashMap<>();
 			for (Block block : e.blockList()) {
 				blocks.put(block.getLocation(), block.getBlockData());
+				block.getLocation().getBlock().setType(Material.BARRIER);
 			}
 			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), new ExplosionRepair(blocks), 20);
 
