@@ -11,6 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -110,6 +111,13 @@ public class PlayerListener implements Listener {
 			case FALL:
 				a = "fell &a" + ((int) e.getEntity().getFallDistance()) + "&7 to their doom fighting";
 				break;
+			case DROWNING:
+				a = "drowned fighting";
+				break;
+			case PROJECTILE:
+				a = "shot by";
+				x = "from " + e.getEntity().getLocation()
+						.distance(((Entity) ((Projectile) damager).getShooter()).getLocation());
 			default:
 				a = "was killed by";
 				break;
