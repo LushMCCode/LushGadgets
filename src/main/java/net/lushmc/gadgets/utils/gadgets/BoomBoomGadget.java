@@ -65,9 +65,10 @@ public class BoomBoomGadget extends Gadget {
 		@Override
 		public void run() {
 			if (new Date().getTime() - started >= TimeUnit.MILLISECONDS.convert(3, TimeUnit.SECONDS)) {
-				// explode
-				item.getWorld().createExplosion(item.getLocation(), 5f, false, false, item);
-				item.remove();
+				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
+					item.getWorld().createExplosion(item.getLocation(), 5f, false, false, item);
+					item.remove();
+				}, 0);
 				return;
 			}
 			format.spawnParticle(Particle.END_ROD, item.getLocation());
