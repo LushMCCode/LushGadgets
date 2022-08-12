@@ -27,6 +27,8 @@ import net.lushmc.core.utils.CoreUtils;
 import net.lushmc.gadgets.utils.GadgetUtils;
 import net.lushmc.gadgets.utils.GadgetUtils.GadgetAction;
 import net.lushmc.gadgets.utils.Utils;
+import net.lushmc.gadgets.utils.gadgets.BoomBoomGadget;
+import net.lushmc.gadgets.utils.gadgets.Gadget;
 
 public class PlayerListener implements Listener {
 
@@ -82,6 +84,26 @@ public class PlayerListener implements Listener {
 		if (e.getEntity().hasMetadata("last_damager")) {
 			Entity damager = (Entity) e.getEntity().getMetadata("last_damager").get(0).value();
 			DamageCause cause = (DamageCause) e.getEntity().getMetadata("last_damage_cause").get(0).value();
+			String p1 = e.getEntity().getName();
+			String p2 = damager instanceof Player ? damager.getName() : "";
+			String a = "";
+			String x = "";
+			if (damager.hasMetadata("gadget")) {
+				Gadget g = (Gadget) damager.getMetadata("gadget").get(0).value();
+				if (g instanceof BoomBoomGadget)
+					p2 = ((Player) damager.getMetadata("thrower").get(0).value()).getName();
+
+			}
+
+			switch (cause) {
+			case BLOCK_EXPLOSION:
+			case ENTITY_EXPLOSION:
+				a = "blown up by";
+				break;
+			}
+
+			Bukkit.broadcastMessage(CoreUtils.colorize(p1 + " was " + a + " " + p2 + (x == "" ? "." : " " + x + ".")));
+
 			Bukkit.broadcastMessage(CoreUtils.colorize("&a" + damager.getName()));
 			Bukkit.broadcastMessage(CoreUtils.colorize("&c" + cause.toString()));
 		}
