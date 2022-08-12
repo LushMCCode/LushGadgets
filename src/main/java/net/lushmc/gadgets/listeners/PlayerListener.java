@@ -111,7 +111,7 @@ public class PlayerListener implements Listener {
 				a = "was blown up by";
 				break;
 			case FALL:
-				a = "fell " + c1 + ((int) e.getEntity().getFallDistance()) + c2 + " to their doom fighting";
+				a = "fell " + c1 + ((int) e.getEntity().getFallDistance()) + c2 + " blocks to their doom fighting";
 				break;
 			case DROWNING:
 				a = "drowned fighting";
