@@ -62,7 +62,7 @@ public class PlayerListener implements Listener {
 			else {
 				if (e.getDamager().hasMetadata("thrower")
 						&& ((Player) e.getDamager().getMetadata("thrower").get(0).value()).equals(e.getEntity())) {
-					e.setCancelled(true);
+					e.setDamage(0);
 				}
 			}
 		}
