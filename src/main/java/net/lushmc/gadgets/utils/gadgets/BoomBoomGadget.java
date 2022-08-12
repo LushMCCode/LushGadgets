@@ -77,7 +77,7 @@ public class BoomBoomGadget extends Gadget {
 				}, 0);
 				return;
 			}
-			item.getWorld().spawnParticle(Particle.END_ROD, item.getLocation(), 0);
+			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 0);
 //			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 2);
 			Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
 		}
