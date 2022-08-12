@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import net.lushmc.core.utils.chat.CoreChatUtils;
 import net.lushmc.core.utils.items.CustomItem;
@@ -48,7 +49,7 @@ public class BoomBoomGadget extends Gadget {
 		bomb.setPickupDelay(Integer.MAX_VALUE);
 		bomb.setVelocity(player.getEyeLocation().getDirection());
 		Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(),
-				new ExplosionRunnable(bomb, new Date().getTime()), 0);
+				new ExplosionRunnable(bomb, player, new Date().getTime()), 0);
 
 	}
 
@@ -56,9 +57,11 @@ public class BoomBoomGadget extends Gadget {
 
 		long started;
 		Item item;
+		Player player;
 
-		public ExplosionRunnable(Item item, long started) {
+		public ExplosionRunnable(Item item, Player player, long started) {
 			this.item = item;
+			this.player = player;
 			this.started = started;
 		}
 
@@ -67,7 +70,7 @@ public class BoomBoomGadget extends Gadget {
 			if (!item.getLocation().add(item.getVelocity()).getBlock().getType().equals(Material.AIR)) {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 					item.getWorld().createExplosion(item.getLocation(), 5f, false, true, item);
-					item.remove();
+					item.setMetadata("thrower", new FixedMetadataValue(Utils.getPlugin(), player));
 				}, 0);
 				return;
 			}
