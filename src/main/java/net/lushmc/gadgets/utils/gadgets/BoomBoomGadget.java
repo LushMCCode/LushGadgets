@@ -69,7 +69,7 @@ public class BoomBoomGadget extends Gadget {
 		bomb.setVelocity(player.getEyeLocation().getDirection());
 		Bukkit.getScheduler().runTaskLater(Utils.getPlugin(),
 				new GenericCooldownRunnable(cooldownbar, "boomboom", player.getUniqueId(), new Date().getTime(),
-						DebugUtils.isDebugger(player.getUniqueId()) ? 0 : 10, () -> {
+						DebugUtils.isDebugger(player.getUniqueId()) ? -1 : 10, () -> {
 						}),
 				1);
 		Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new ExplosionRunnable(bomb, player, this),
