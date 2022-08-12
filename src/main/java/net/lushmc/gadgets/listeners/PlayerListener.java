@@ -69,7 +69,7 @@ public class PlayerListener implements Listener {
 		if (e.getEntity().hasMetadata("gadget")) {
 			List<Block> blocks = e.blockList();
 			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), new ExplosionRepair(blocks), 20);
-			Bukkit.broadcastMessage("Test");
+
 		}
 	}
 
@@ -83,6 +83,7 @@ public class PlayerListener implements Listener {
 
 		@Override
 		public void run() {
+			Bukkit.broadcastMessage("Test");
 			Block block = blocks.get(new Random().nextInt(blocks.size() - 1));
 			Block other = block.getLocation().getBlock();
 			other.setType(block.getType());
