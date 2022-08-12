@@ -107,10 +107,16 @@ public class PlayerListener implements Listener {
 			case ENTITY_EXPLOSION:
 				a = "blown up by";
 				break;
+			case FALL:
+				a = "fell &a" + e.getEntity().getFallDistance() + "&7 to their doom fighting";
+				break;
+			default:
+				a = "killed by";
+				break;
 			}
 
-			Bukkit.broadcastMessage(CoreUtils.colorize(
-					"&a" + p1 + "&7" + " was " + a + " " + "&a" + p2 + "&7" + (x == "" ? "." : " " + x + ".")));
+			Bukkit.broadcastMessage(CoreUtils.colorize("&a" + p1 + "&7" + " was " + a + " " + "&a"
+					+ (p2 == "" ? "something" : p2) + "&7" + (x == "" ? "." : " " + x + ".")));
 		}
 	}
 
