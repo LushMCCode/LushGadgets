@@ -16,6 +16,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import net.lushmc.core.utils.CoreUtils;
 import net.lushmc.core.utils.CosmeticUtils;
 import net.lushmc.core.utils.CosmeticUtils.GenericCooldownRunnable;
+import net.lushmc.core.utils.DebugUtils;
 import net.lushmc.core.utils.chat.CoreChatUtils;
 import net.lushmc.core.utils.items.CustomItem;
 import net.lushmc.core.utils.particles.formats.DotFormat;
@@ -66,9 +67,11 @@ public class BoomBoomGadget extends Gadget {
 		Item bomb = player.getWorld().dropItem(player.getEyeLocation(), item.getItem(player));
 		bomb.setPickupDelay(Integer.MAX_VALUE);
 		bomb.setVelocity(player.getEyeLocation().getDirection());
-		Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), new GenericCooldownRunnable(cooldownbar, "boomboom",
-				player.getUniqueId(), new Date().getTime(), 10, () -> {
-				}), 1);
+		Bukkit.getScheduler().runTaskLater(Utils.getPlugin(),
+				new GenericCooldownRunnable(cooldownbar, "boomboom", player.getUniqueId(), new Date().getTime(),
+						DebugUtils.isDebugger(player.getUniqueId()) ? 0 : 10, () -> {
+						}),
+				1);
 		Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new ExplosionRunnable(bomb, player, this),
 				0);
 
