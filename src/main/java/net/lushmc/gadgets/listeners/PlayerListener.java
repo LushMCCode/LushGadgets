@@ -65,21 +65,11 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onEntityDamage(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player) {
+			long time = new Date().getTime();
 			e.getEntity().setMetadata("last_damage_cause", new FixedMetadataValue(Utils.getPlugin(), e.getCause()));
 			e.getEntity().setMetadata("last_damage_time",
-					new FixedMetadataValue(Utils.getPlugin(), new Date().getTime()));
-		}
-	}
-
-	@EventHandler
-	public void onEntityDamage(EntityDamageByEntityEvent e) {
-		if (e.getEntity() instanceof Player) {
-			long time = new Date().getTime();
-			// If there are any errors with detecting who killed who, check to see if player
-			// has metadata, remove it, then add new metadata
-			e.getEntity().setMetadata("last_damager", new FixedMetadataValue(Utils.getPlugin(), e.getDamager()));
-			e.getEntity().setMetadata("last_damage_cause", new FixedMetadataValue(Utils.getPlugin(), e.getCause()));
-			e.getEntity().setMetadata("last_damage_time", new FixedMetadataValue(Utils.getPlugin(), time));
+					new FixedMetadataValue(Utils.getPlugin(), time));
+			
 			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 				if (e.getEntity().hasMetadata("last_damage_time")
 						&& e.getEntity().getMetadata("last_damage_time").get(0).value().equals(time)) {
@@ -88,6 +78,17 @@ public class PlayerListener implements Listener {
 					e.getEntity().removeMetadata("last_damage_time", Utils.getPlugin());
 				}
 			}, 3 * 20);
+		}
+	}
+
+	@EventHandler
+	public void onEntityDamage(EntityDamageByEntityEvent e) {
+		if (e.getEntity() instanceof Player) {
+			
+			// If there are any errors with detecting who killed who, check to see if player
+			// has metadata, remove it, then add new metadata
+			e.getEntity().setMetadata("last_damager", new FixedMetadataValue(Utils.getPlugin(), e.getDamager()));
+			
 		}
 		if (e.getCause().equals(DamageCause.ENTITY_EXPLOSION)) {
 			if (!(e.getEntity() instanceof Player))
