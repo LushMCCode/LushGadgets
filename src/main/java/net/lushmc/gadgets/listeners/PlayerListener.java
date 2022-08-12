@@ -78,8 +78,9 @@ public class PlayerListener implements Listener {
 		if (e.getEntity().hasMetadata("gadget")) {
 			e.getEntity().remove();
 			HashMap<Location, BlockData> blocks = new HashMap<>();
-			for (Block block : e.blockList())
+			for (Block block : e.blockList()) {
 				blocks.put(block.getLocation(), block.getBlockData());
+			}
 			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), new ExplosionRepair(blocks), 20);
 
 		}
