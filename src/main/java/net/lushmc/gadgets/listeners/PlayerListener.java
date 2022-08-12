@@ -65,7 +65,6 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onExplosion(EntityExplodeEvent e) {
-		Bukkit.broadcastMessage(e.getEntity().getName());
 		if (e.getEntity().hasMetadata("gadget")) {
 			List<Block> blocks = e.blockList();
 			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), new ExplosionRepair(blocks), 20);
@@ -86,7 +85,7 @@ public class PlayerListener implements Listener {
 			Bukkit.broadcastMessage("Test");
 			Block block = blocks.get(new Random().nextInt(blocks.size() - 1));
 			Block other = block.getLocation().getBlock();
-			other.setType(block.getType());
+//			other.setType(block.getType());
 			other.setBlockData(block.getBlockData());
 			blocks.remove(block);
 			if (!blocks.isEmpty())
