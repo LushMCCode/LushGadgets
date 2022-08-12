@@ -12,6 +12,8 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -64,6 +66,11 @@ public class PlayerListener implements Listener {
 				}
 			}
 		}
+	}
+
+	@EventHandler
+	public void onBlockBreak(BlockBreakEvent e) {
+		e.setDropItems(false);
 	}
 
 	@EventHandler
