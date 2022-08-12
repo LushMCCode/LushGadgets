@@ -3,7 +3,11 @@ package net.lushmc.gadgets.utils.gadgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 
 import net.lushmc.core.utils.items.CustomItem;
@@ -13,6 +17,7 @@ public class Gadget {
 
 	CustomItem item;
 	String id;
+	BossBar cooldownbar;
 
 	public Gadget(String id) {
 		this.id = id;
@@ -20,6 +25,11 @@ public class Gadget {
 	}
 
 	public void init() {
+
+		/*
+		 * Create BossBar
+		 */
+		cooldownbar = Bukkit.createBossBar("Cooldown", BarColor.BLUE, BarStyle.SOLID);
 
 		/*
 		 * Create Item

@@ -3,15 +3,19 @@ package net.lushmc.gadgets.utils.gadgets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import net.lushmc.core.utils.CoreUtils;
+import net.lushmc.core.utils.CosmeticUtils;
+import net.lushmc.core.utils.CosmeticUtils.GenericCooldownRunnable;
 import net.lushmc.core.utils.chat.CoreChatUtils;
 import net.lushmc.core.utils.items.CustomItem;
 import net.lushmc.core.utils.particles.formats.DotFormat;
@@ -28,13 +32,21 @@ public class BoomBoomGadget extends Gadget {
 
 	@Override
 	public void init() {
+
+		String dn = CoreChatUtils.fade("FFFFFF", "FFFF55", "BOOM", true, false, false, false, false)
+				+ CoreChatUtils.fade("FFFF55", "FF5555", " BOOM", true, false, false, false, false);
+
+		/*
+		 * Create BossBar
+		 */
+		cooldownbar = Bukkit.createBossBar(CoreUtils.colorize(dn + " &c&lCooldown"), BarColor.RED, BarStyle.SOLID);
+
 		/*
 		 * Create Item
 		 */
 		item = new CustomItem(Material.TNT);
 		;
-		item.setDisplayName(CoreChatUtils.fade("FFFFFF", "FFFF55", "BOOM", true, false, false, false, false)
-				+ CoreChatUtils.fade("FFFF55", "FF5555", " BOOM", true, false, false, false, false));
+		item.setDisplayName(dn);
 //		item.setDisplayName("&F&LBO&E&LOM &6&LBO&C&LOM");
 		List<String> lore = new ArrayList<>();
 		lore.add("&7Gadget-ID: " + id);
@@ -45,25 +57,32 @@ public class BoomBoomGadget extends Gadget {
 
 	@Override
 	public void activate(Player player, GadgetAction action) {
+
+		if (CosmeticUtils.getGenericCooldown("boomboom").contains(player.getUniqueId())) {
+			return;
+		}
+		CosmeticUtils.getGenericCooldown("boomboom").add(player.getUniqueId());
+
 		Item bomb = player.getWorld().dropItem(player.getEyeLocation(), item.getItem(player));
 		bomb.setPickupDelay(Integer.MAX_VALUE);
 		bomb.setVelocity(player.getEyeLocation().getDirection());
-		Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(),
-				new ExplosionRunnable(bomb, player, this, new Date().getTime()), 0);
+		Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), new GenericCooldownRunnable(cooldownbar, "boomboom",
+				player.getUniqueId(), new Date().getTime(), 10, () -> {
+				}), 1);
+		Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new ExplosionRunnable(bomb, player, this),
+				0);
 
 	}
 
 	private class ExplosionRunnable implements Runnable {
 
-		long started;
 		Item item;
 		Player player;
 		Gadget gadget;
 
-		public ExplosionRunnable(Item item, Player player, Gadget gadget, long started) {
+		public ExplosionRunnable(Item item, Player player, Gadget gadget) {
 			this.item = item;
 			this.player = player;
-			this.started = started;
 			this.gadget = gadget;
 		}
 
@@ -78,7 +97,7 @@ public class BoomBoomGadget extends Gadget {
 				return;
 			}
 			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 0);
-//			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 2);
+			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 2);
 			Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
 		}
 
