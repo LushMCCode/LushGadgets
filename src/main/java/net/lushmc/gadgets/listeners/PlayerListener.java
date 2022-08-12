@@ -1,8 +1,11 @@
 package net.lushmc.gadgets.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,6 +39,13 @@ public class PlayerListener implements Listener {
 				e.setCancelled(true);
 				return;
 			}
+		}
+	}
+
+	@EventHandler
+	public void onExplosion(EntityExplodeEvent e) {
+		if (e.getEntity() instanceof Item) {
+			Bukkit.broadcastMessage("Test");
 		}
 	}
 

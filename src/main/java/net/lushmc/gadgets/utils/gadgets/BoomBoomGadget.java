@@ -49,6 +49,7 @@ public class BoomBoomGadget extends Gadget {
 		bomb.setVelocity(player.getEyeLocation().getDirection());
 		Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(),
 				new ExplosionRunnable(bomb, new Date().getTime()), 0);
+
 	}
 
 	private class ExplosionRunnable implements Runnable {
@@ -65,6 +66,7 @@ public class BoomBoomGadget extends Gadget {
 		public void run() {
 			if (new Date().getTime() - started >= TimeUnit.MILLISECONDS.convert(3, TimeUnit.SECONDS)) {
 				// explode
+				item.getWorld().createExplosion(item.getLocation(), 5f, false, false, item);
 				item.remove();
 				return;
 			}
