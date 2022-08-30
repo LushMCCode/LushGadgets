@@ -11,7 +11,7 @@ public class Utils {
 	public static void init(GadgetPlugin main) {
 		plugin = main;
 		CoreUtils.addPrefix("gadgets", "&e&lGadgets &7" + Emoticons.RIGHT_ARROW + " &f");
-		GadgetUtils.registerGadgets();
+//		GadgetUtils.registerGadgets();
 	}
 
 	public static GadgetPlugin getPlugin() {
