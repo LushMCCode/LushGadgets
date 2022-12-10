@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import net.lushmc.gadgets.utils.gadgets.BoomBoomGadget;
 import net.lushmc.gadgets.utils.gadgets.Gadget;
+import net.lushmc.gadgets.utils.gadgets.SmokeBombGadget;
 
 public class GadgetUtils {
 
@@ -19,6 +20,7 @@ public class GadgetUtils {
 		if (!gadgets.isEmpty())
 			gadgets.clear();
 		addGadget(new BoomBoomGadget());
+		addGadget(new SmokeBombGadget());
 	}
 
 	public static void addGadget(String id, Gadget gadget) {
