@@ -4,8 +4,6 @@ version: 0.0.1 pre-release 1
 description: Gadget plugin for LushMC
 api-version: 1.16
 api: Spigot
-depend:
-- lush-core
 main: net.lushmc.gadgets.GadgetPlugin
 commands:
    gadget:
