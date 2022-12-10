@@ -18,7 +18,7 @@ public class GadgetUtils {
 	public static void registerGadgets() {
 		if (!gadgets.isEmpty())
 			gadgets.clear();
-		addGadget(new BoomBoomGadget("boomboom"));
+		addGadget(new BoomBoomGadget());
 	}
 
 	public static void addGadget(String id, Gadget gadget) {
@@ -54,16 +54,16 @@ public class GadgetUtils {
 
 	public enum GadgetAction {
 
-		LEFT_CLICK, RIGHT_CLICK;
+		SHIFT_LEFT_CLICK, LEFT_CLICK, SHIFT_RIGHT_CLICK, RIGHT_CLICK;
 
 		public static GadgetAction fromEvent(PlayerInteractEvent e) {
 			switch (e.getAction()) {
 			case LEFT_CLICK_AIR:
 			case LEFT_CLICK_BLOCK:
-				return LEFT_CLICK;
+				return e.getPlayer().isSneaking() ? SHIFT_LEFT_CLICK : LEFT_CLICK;
 			case RIGHT_CLICK_AIR:
 			case RIGHT_CLICK_BLOCK:
-				return RIGHT_CLICK;
+				return e.getPlayer().isSneaking() ? SHIFT_RIGHT_CLICK : RIGHT_CLICK;
 			default:
 				return null;
 			}

@@ -27,8 +27,8 @@ public class BoomBoomGadget extends Gadget {
 
 	DotFormat format = new DotFormat();
 
-	public BoomBoomGadget(String id) {
-		super(id);
+	public BoomBoomGadget() {
+		super("boomboom");
 	}
 
 	@Override
