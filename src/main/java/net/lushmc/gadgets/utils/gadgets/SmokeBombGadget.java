@@ -139,6 +139,8 @@ public class SmokeBombGadget extends Gadget {
 						player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 2, false, false, true));
 				}
 			}
+			Bukkit.broadcastMessage(
+					"time: " + TimeUnit.MILLISECONDS.convert(new Date().getTime() - started, TimeUnit.SECONDS));
 			if (TimeUnit.MILLISECONDS.convert(new Date().getTime() - started, TimeUnit.SECONDS) < 5) {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), this, 0);
 				Bukkit.broadcastMessage("4");
