@@ -101,13 +101,14 @@ public class SmokeBombGadget extends Gadget {
 					item.setMetadata("thrower", new FixedMetadataValue(Utils.getPlugin(), player));
 					item.setMetadata("gadget", new FixedMetadataValue(Utils.getPlugin(), gadget));
 
-					for (int i = 0; i < new Random().nextInt(50) + 30; i++) {
-						item.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL,
-								item.getLocation().clone().add(
-										new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1),
-										new Random().nextInt(3),
-										new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1)),
-								1, 0, 0, 0, 0);
+					for (int i = 0; i < new Random().nextInt(30) + 70; i++) {
+						if (new Random().nextDouble() < 0.33)
+							item.getWorld().spawnParticle(Particle.EXPLOSION_LARGE,
+									item.getLocation().clone().add(
+											new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1),
+											new Random().nextInt(3),
+											new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1)),
+									1, 0, 0, 0, 0);
 
 						item.getWorld().spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE,
 								item.getLocation().clone().add(
