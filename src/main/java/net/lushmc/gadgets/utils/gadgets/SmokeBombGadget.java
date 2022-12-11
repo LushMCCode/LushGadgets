@@ -86,6 +86,7 @@ public class SmokeBombGadget extends Gadget {
 		case SHIFT_LEFT_CLICK:
 		case SHIFT_RIGHT_CLICK:
 			Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new SmokeScreenRunnable(bomb), 0);
+			break;
 		}
 
 	}
