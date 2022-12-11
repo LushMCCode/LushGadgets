@@ -100,14 +100,13 @@ public class SmokeBombGadget extends Gadget {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 					item.setMetadata("thrower", new FixedMetadataValue(Utils.getPlugin(), player));
 					item.setMetadata("gadget", new FixedMetadataValue(Utils.getPlugin(), gadget));
-					Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new SmokeScreenRunnable(item),
-							0);
+					Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), new SmokeScreenRunnable(item), 0);
 				}, 0);
 				return;
 			}
 			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 0);
 			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 2);
-			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), this, 0);
+			Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
 		}
 
 	}
