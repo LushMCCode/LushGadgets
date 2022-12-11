@@ -154,7 +154,7 @@ public class SmokeBombGadget extends Gadget {
 							player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10, 2, false, false, true));
 						else
 							player.addPotionEffect(
-									new PotionEffect(PotionEffectType.BLINDNESS, 10, 2, false, false, true));
+									new PotionEffect(PotionEffectType.BLINDNESS, 10, 100, false, false, true));
 					}
 				}
 			}, 0);
