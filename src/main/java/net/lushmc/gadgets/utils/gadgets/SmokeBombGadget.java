@@ -105,7 +105,7 @@ public class SmokeBombGadget extends Gadget {
 
 		@Override
 		public void run() {
-			if (!item.getLocation().add(item.getVelocity()).getBlock().getType().equals(Material.AIR)) {
+			if (item.getLocation().add(item.getVelocity()).getBlock().getType().equals(Material.AIR)) {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 					item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 0);
 					item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 2);
