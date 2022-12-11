@@ -69,16 +69,24 @@ public class SmokeBombGadget extends Gadget {
 			return;
 		}
 		CosmeticUtils.getGenericCooldown("smokebomb").add(player.getUniqueId());
-
-		Item bomb = player.getWorld().dropItem(player.getEyeLocation(), item.getItem(player));
-		bomb.setPickupDelay(Integer.MAX_VALUE);
-		bomb.setVelocity(player.getEyeLocation().getDirection());
 		Bukkit.getScheduler().runTaskLater(Utils.getPlugin(),
 				new GenericCooldownRunnable(cooldownbar, "smokebomb", player.getUniqueId(), new Date().getTime(),
 						DebugUtils.isDebugger(player.getUniqueId()) ? -1 : 10, () -> {
 						}),
 				1);
-		Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new ThrowRunnable(bomb, player, this), 0);
+		Item bomb = player.getWorld().dropItem(player.getEyeLocation(), item.getItem(player));
+		bomb.setPickupDelay(Integer.MAX_VALUE);
+		switch (action) {
+		case LEFT_CLICK:
+		case RIGHT_CLICK:
+			bomb.setVelocity(player.getEyeLocation().getDirection());
+			Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new ThrowRunnable(bomb, player, this),
+					0);
+			break;
+		case SHIFT_LEFT_CLICK:
+		case SHIFT_RIGHT_CLICK:
+			Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new SmokeScreenRunnable(bomb), 0);
+		}
 
 	}
 
@@ -98,33 +106,16 @@ public class SmokeBombGadget extends Gadget {
 		public void run() {
 			if (!item.getLocation().add(item.getVelocity()).getBlock().getType().equals(Material.AIR)) {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
-					item.setMetadata("thrower", new FixedMetadataValue(Utils.getPlugin(), player));
-					item.setMetadata("gadget", new FixedMetadataValue(Utils.getPlugin(), gadget));
-
-					for (int i = 0; i < new Random().nextInt(30) + 70; i++) {
-						if (new Random().nextDouble() < 0.33)
-							item.getWorld().spawnParticle(Particle.EXPLOSION_LARGE,
-									item.getLocation().clone().add(
-											new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1),
-											new Random().nextInt(3),
-											new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1)),
-									1, 0, 0, 0, 0);
-
-						item.getWorld().spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE,
-								item.getLocation().clone().add(
-										new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1),
-										new Random().nextInt(3),
-										new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1)),
-								1, new Random().nextDouble(), new Random().nextDouble(), new Random().nextDouble(), 0);
-					}
-					Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new SmokeScreenRunnable(item),
-							0);
+					item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 0);
+					item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 2);
+					Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
 				}, 0);
-				return;
+
+			} else {
+				prepareSmokeScreen(item, player, gadget);
+				Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new SmokeScreenRunnable(item), 0);
 			}
-			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 0);
-			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 2);
-			Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
+			return;
 		}
 
 	}
@@ -164,6 +155,26 @@ public class SmokeBombGadget extends Gadget {
 			else
 				item.remove();
 
+		}
+
+	}
+
+	public void prepareSmokeScreen(Item item, Player player, Gadget gadget) {
+		item.setMetadata("thrower", new FixedMetadataValue(Utils.getPlugin(), player));
+		item.setMetadata("gadget", new FixedMetadataValue(Utils.getPlugin(), gadget));
+
+		for (int i = 0; i < new Random().nextInt(30) + 70; i++) {
+			if (new Random().nextDouble() < 0.33)
+				item.getWorld().spawnParticle(Particle.EXPLOSION_LARGE,
+						item.getLocation().clone().add(new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1),
+								new Random().nextInt(3),
+								new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1)),
+						1, 0, 0, 0, 0);
+
+			item.getWorld().spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE,
+					item.getLocation().clone().add(new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1),
+							new Random().nextInt(3), new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1)),
+					1, new Random().nextDouble(), new Random().nextDouble(), new Random().nextDouble(), 0);
 		}
 
 	}
