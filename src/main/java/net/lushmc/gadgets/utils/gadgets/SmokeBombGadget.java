@@ -100,7 +100,8 @@ public class SmokeBombGadget extends Gadget {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 					item.setMetadata("thrower", new FixedMetadataValue(Utils.getPlugin(), player));
 					item.setMetadata("gadget", new FixedMetadataValue(Utils.getPlugin(), gadget));
-					Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), new SmokeScreenRunnable(item), 0);
+					Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new SmokeScreenRunnable(item),
+							0);
 				}, 0);
 				return;
 			}
@@ -124,21 +125,25 @@ public class SmokeBombGadget extends Gadget {
 
 		@Override
 		public void run() {
-			item.getWorld().spawnParticle(Particle.CLOUD,
+			item.getWorld().spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE,
 					item.getLocation().clone().add(new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1),
 							new Random().nextInt(3), new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1)),
-					1, 0, 0, 0, 0);
-			for (Entity e : item.getNearbyEntities(3, 3, 3)) {
-				if (e instanceof Player) {
-					Player player = (Player) e;
-					if (player.equals(item.getMetadata("thrower").get(0).value()))
-						player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10, 2, false, false, true));
-					else
-						player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 2, false, false, true));
+					1, new Random().nextDouble(), new Random().nextDouble(), new Random().nextDouble(), 0);
+			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
+				for (Entity e : item.getNearbyEntities(3, 3, 3)) {
+					if (e instanceof Player) {
+						Player player = (Player) e;
+						if (player.equals(item.getMetadata("thrower").get(0).value()))
+							player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10, 2, false, false, true));
+						else
+							player.addPotionEffect(
+									new PotionEffect(PotionEffectType.BLINDNESS, 10, 2, false, false, true));
+					}
 				}
-			}
+			}, 0);
+
 			if (new Date().getTime() - started > TimeUnit.SECONDS.convert(5, TimeUnit.MILLISECONDS))
-				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), this, 0);
+				Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
 
 		}
 
