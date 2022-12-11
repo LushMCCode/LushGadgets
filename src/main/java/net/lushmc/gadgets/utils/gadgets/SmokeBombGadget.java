@@ -140,8 +140,8 @@ public class SmokeBombGadget extends Gadget {
 				}
 			}
 			Bukkit.broadcastMessage(
-					"time: " + TimeUnit.MILLISECONDS.convert(new Date().getTime() - started, TimeUnit.SECONDS));
-			if (TimeUnit.MILLISECONDS.convert(new Date().getTime() - started, TimeUnit.SECONDS) < 5) {
+					"time: " + TimeUnit.MICROSECONDS.convert(new Date().getTime() - started, TimeUnit.SECONDS));
+			if (TimeUnit.MICROSECONDS.convert(new Date().getTime() - started, TimeUnit.SECONDS) < 5) {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), this, 0);
 				Bukkit.broadcastMessage("4");
 			}
