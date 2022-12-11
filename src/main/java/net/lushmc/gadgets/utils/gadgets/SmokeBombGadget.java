@@ -100,6 +100,21 @@ public class SmokeBombGadget extends Gadget {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 					item.setMetadata("thrower", new FixedMetadataValue(Utils.getPlugin(), player));
 					item.setMetadata("gadget", new FixedMetadataValue(Utils.getPlugin(), gadget));
+					for (int i = 0; i < new Random().nextInt(3) + 2; i++)
+						item.getWorld().spawnParticle(Particle.EXPLOSION_LARGE,
+								item.getLocation().clone().add(
+										new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1),
+										new Random().nextInt(3),
+										new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1)),
+								1, 0, 0, 0, 0);
+					for (int i = 0; i < new Random().nextInt(10) + 5; i++)
+						item.getWorld().spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE,
+								item.getLocation().clone().add(
+										new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1),
+										new Random().nextInt(3),
+										new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1)),
+								1, 0, 0, 0, 0);
+
 					Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new SmokeScreenRunnable(item),
 							0);
 				}, 0);
@@ -142,8 +157,6 @@ public class SmokeBombGadget extends Gadget {
 				}
 			}, 0);
 
-			Bukkit.broadcastMessage(
-					"time: " + TimeUnit.SECONDS.convert(new Date().getTime() - started, TimeUnit.MILLISECONDS));
 			if (TimeUnit.SECONDS.convert(new Date().getTime() - started, TimeUnit.MILLISECONDS) < 5)
 				Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
 			else
