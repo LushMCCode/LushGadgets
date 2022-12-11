@@ -119,8 +119,9 @@ public class SmokeBombGadget extends Gadget {
 
 		public SmokeScreenRunnable(Item item) {
 			this.item = item;
-			Bukkit.broadcastMessage("2");
-			this.started = new Date().getTime();
+			started = new Date().getTime();
+			Bukkit.broadcastMessage("2: " + started);
+
 		}
 
 		@Override
@@ -140,8 +141,8 @@ public class SmokeBombGadget extends Gadget {
 				}
 			}
 			Bukkit.broadcastMessage(
-					"time: " + TimeUnit.MICROSECONDS.convert(new Date().getTime() - started, TimeUnit.SECONDS));
-			if (TimeUnit.MICROSECONDS.convert(new Date().getTime() - started, TimeUnit.SECONDS) < 5) {
+					"time: " + TimeUnit.MILLISECONDS.convert(new Date().getTime() - started, TimeUnit.MINUTES));
+			if (TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS) < new Date().getTime() - started) {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), this, 0);
 				Bukkit.broadcastMessage("4");
 			}
