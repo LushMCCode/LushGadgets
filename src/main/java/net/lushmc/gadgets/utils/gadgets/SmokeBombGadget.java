@@ -58,7 +58,8 @@ public class SmokeBombGadget extends Gadget {
 		List<String> lore = new ArrayList<>();
 		lore.add("&7Gadget-ID: " + id);
 		lore.add("&8-------------");
-		lore.add("&c&lRIGHT CLICK&7 to throw.");
+		lore.add("&7&lCLICK&7 to throw.");
+		lore.add("&7&lSNEAK + CLICK&7 to drop.");
 		item.setLore(lore);
 	}
 
@@ -109,7 +110,7 @@ public class SmokeBombGadget extends Gadget {
 			if (item.getLocation().add(item.getVelocity()).getBlock().getType().equals(Material.AIR)) {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 					item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 0);
-					item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 2);
+					item.getWorld().spawnParticle(Particle.ASH, item.getLocation(), 1, 0, 0, 0, 1);
 					Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
 				}, 0);
 
