@@ -45,8 +45,8 @@ public class BoomBoomGadget extends Gadget {
 		/*
 		 * Create Item
 		 */
-		item = new CustomItem(Material.TNT);
-		;
+		item = new CustomItem(Material.GOLD_INGOT);
+		item.setCustomModelData(10000);
 		item.setDisplayName(dn);
 //		item.setDisplayName("&F&LBO&E&LOM &6&LBO&C&LOM");
 		List<String> lore = new ArrayList<>();

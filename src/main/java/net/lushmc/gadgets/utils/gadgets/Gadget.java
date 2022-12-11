@@ -10,7 +10,9 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 
+import net.lushmc.core.utils.UID;
 import net.lushmc.core.utils.items.CustomItem;
+import net.lushmc.gadgets.utils.Utils;
 import net.lushmc.gadgets.utils.GadgetUtils.GadgetAction;
 
 public class Gadget {
@@ -18,9 +20,11 @@ public class Gadget {
 	CustomItem item;
 	String id;
 	BossBar cooldownbar;
+	UID uid;
 
 	public Gadget(String id) {
 		this.id = id;
+		this.uid = new UID(10);
 		init();
 	}
 
@@ -50,6 +54,7 @@ public class Gadget {
 	}
 
 	public CustomItem getCustomItem() {
+		item.setMetadata(Utils.getPlugin(), "gadget", uid);
 		return item;
 	}
 

@@ -35,8 +35,8 @@ public class SmokeBombGadget extends Gadget {
 	@Override
 	public void init() {
 
-		String dn = CoreChatUtils.fade("FFFFFF", "808080", "BOOM", true, false, false, false, false)
-				+ CoreChatUtils.fade("7F7F7F", "000000", " BOOM", true, false, false, false, false);
+		String dn = CoreChatUtils.fade("FFFFFF", "808080", "Smoke", true, false, false, false, false)
+				+ CoreChatUtils.fade("7F7F7F", "000000", " Bomb", true, false, false, false, false);
 
 		/*
 		 * Create BossBar
@@ -47,10 +47,8 @@ public class SmokeBombGadget extends Gadget {
 		 * Create Item
 		 */
 
-		item = new CustomItem(new PlayerSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90"
-				+ "ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTYxNTE" + "2YzFiYmE4MWMxNTllODExYzg1ODY4Y2NkODc4ODZjZTVjMD"
-				+ "RhOGQ1YWUxYTRhOTRkMjQzNmY0NzNmIn19fQ=="));
-		;
+		item = new CustomItem(Material.GOLD_INGOT);
+		item.setCustomModelData(10001);
 		item.setDisplayName(dn);
 //		item.setDisplayName("&F&LBO&E&LOM &6&LBO&C&LOM");
 		List<String> lore = new ArrayList<>();
