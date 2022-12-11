@@ -3,21 +3,25 @@ package net.lushmc.gadgets.utils.gadgets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import net.lushmc.core.utils.CoreUtils;
 import net.lushmc.core.utils.CosmeticUtils;
 import net.lushmc.core.utils.CosmeticUtils.GenericCooldownRunnable;
 import net.lushmc.core.utils.DebugUtils;
-import net.lushmc.core.utils.PlayerSkull;
 import net.lushmc.core.utils.chat.CoreChatUtils;
 import net.lushmc.core.utils.items.CustomItem;
 import net.lushmc.core.utils.particles.formats.DotFormat;
@@ -41,7 +45,7 @@ public class SmokeBombGadget extends Gadget {
 		/*
 		 * Create BossBar
 		 */
-		cooldownbar = Bukkit.createBossBar(CoreUtils.colorize(dn + " &c&lCooldown"), BarColor.WHITE, BarStyle.SOLID);
+		cooldownbar = Bukkit.createBossBar(CoreUtils.colorize(dn + " &7&lCooldown"), BarColor.WHITE, BarStyle.SOLID);
 
 		/*
 		 * Create Item
@@ -97,6 +101,8 @@ public class SmokeBombGadget extends Gadget {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 					item.setMetadata("thrower", new FixedMetadataValue(Utils.getPlugin(), player));
 					item.setMetadata("gadget", new FixedMetadataValue(Utils.getPlugin(), gadget));
+					Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new SmokeScreenRunnable(item),
+							0);
 					item.getWorld().createExplosion(item.getLocation(), 5f, false, true, item);
 				}, 0);
 				return;
@@ -104,6 +110,37 @@ public class SmokeBombGadget extends Gadget {
 			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 0);
 			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 2);
 			Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
+		}
+
+	}
+
+	private class SmokeScreenRunnable implements Runnable {
+
+		Item item;
+		long started;
+
+		public SmokeScreenRunnable(Item item) {
+			this.item = item;
+			this.started = new Date().getTime();
+		}
+
+		@Override
+		public void run() {
+			item.getWorld().spawnParticle(Particle.CLOUD,
+					item.getLocation().clone().add(new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1),
+							new Random().nextInt(3), new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1)),
+					1, 0, 0, 0, 1);
+			for (Entity e : item.getNearbyEntities(3, 3, 3)) {
+				if (e instanceof Player) {
+					Player player = (Player) e;
+					if (player.equals(item.getMetadata("thrower").get(0).value()))
+						player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10, 2, false, false, true));
+					else
+						player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 2, false, false, true));
+				}
+			}
+			if (TimeUnit.MILLISECONDS.convert(new Date().getTime() - started, TimeUnit.SECONDS) < 5)
+				Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
 		}
 
 	}
