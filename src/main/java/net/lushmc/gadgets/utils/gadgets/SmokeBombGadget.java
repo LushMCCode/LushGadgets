@@ -78,18 +78,17 @@ public class SmokeBombGadget extends Gadget {
 						DebugUtils.isDebugger(player.getUniqueId()) ? -1 : 10, () -> {
 						}),
 				1);
-		Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new ExplosionRunnable(bomb, player, this),
-				0);
+		Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new ThrowRunnable(bomb, player, this), 0);
 
 	}
 
-	private class ExplosionRunnable implements Runnable {
+	private class ThrowRunnable implements Runnable {
 
 		Item item;
 		Player player;
 		Gadget gadget;
 
-		public ExplosionRunnable(Item item, Player player, Gadget gadget) {
+		public ThrowRunnable(Item item, Player player, Gadget gadget) {
 			this.item = item;
 			this.player = player;
 			this.gadget = gadget;
@@ -103,13 +102,12 @@ public class SmokeBombGadget extends Gadget {
 					item.setMetadata("gadget", new FixedMetadataValue(Utils.getPlugin(), gadget));
 					Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new SmokeScreenRunnable(item),
 							0);
-					item.getWorld().createExplosion(item.getLocation(), 5f, false, true, item);
 				}, 0);
 				return;
 			}
 			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 0);
 			item.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, item.getLocation(), 1, 0, 0, 0, 2);
-			Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
+			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), this, 0);
 		}
 
 	}
@@ -140,7 +138,7 @@ public class SmokeBombGadget extends Gadget {
 				}
 			}
 			if (TimeUnit.MILLISECONDS.convert(new Date().getTime() - started, TimeUnit.SECONDS) < 5)
-				Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
+				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), this, 0);
 		}
 
 	}
