@@ -100,6 +100,7 @@ public class SmokeBombGadget extends Gadget {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 					item.setMetadata("thrower", new FixedMetadataValue(Utils.getPlugin(), player));
 					item.setMetadata("gadget", new FixedMetadataValue(Utils.getPlugin(), gadget));
+					Bukkit.broadcastMessage("1");
 					Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), new SmokeScreenRunnable(item), 0);
 				}, 0);
 				return;
@@ -118,11 +119,13 @@ public class SmokeBombGadget extends Gadget {
 
 		public SmokeScreenRunnable(Item item) {
 			this.item = item;
+			Bukkit.broadcastMessage("2");
 			this.started = new Date().getTime();
 		}
 
 		@Override
 		public void run() {
+			Bukkit.broadcastMessage("3");
 			item.getWorld().spawnParticle(Particle.CLOUD,
 					item.getLocation().clone().add(new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1),
 							new Random().nextInt(3), new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1)),
@@ -136,8 +139,10 @@ public class SmokeBombGadget extends Gadget {
 						player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10, 2, false, false, true));
 				}
 			}
-			if (TimeUnit.MILLISECONDS.convert(new Date().getTime() - started, TimeUnit.SECONDS) < 5)
+			if (TimeUnit.MILLISECONDS.convert(new Date().getTime() - started, TimeUnit.SECONDS) < 5) {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), this, 0);
+				Bukkit.broadcastMessage("4");
+			}
 		}
 
 	}
