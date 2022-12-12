@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import net.lushmc.gadgets.utils.gadgets.BoomBoomGadget;
+import net.lushmc.gadgets.utils.gadgets.DecoyGadget;
 import net.lushmc.gadgets.utils.gadgets.Gadget;
 import net.lushmc.gadgets.utils.gadgets.SmokeBombGadget;
 
@@ -21,6 +22,7 @@ public class GadgetUtils {
 			gadgets.clear();
 		addGadget(new BoomBoomGadget());
 		addGadget(new SmokeBombGadget());
+		addGadget(new DecoyGadget());
 	}
 
 	public static void addGadget(String id, Gadget gadget) {
