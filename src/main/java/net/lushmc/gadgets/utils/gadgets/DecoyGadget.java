@@ -16,6 +16,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.trait.Trait;
+import net.citizensnpcs.trait.versioned.AxolotlTrait;
 import net.lushmc.core.utils.CoreUtils;
 import net.lushmc.core.utils.CosmeticUtils;
 import net.lushmc.core.utils.items.CustomItem;
@@ -66,6 +68,7 @@ public class DecoyGadget extends Gadget {
 		CosmeticUtils.getGenericCooldown("decoygadget").add(player.getUniqueId());
 
 		NPC npc = NPCUtil.createNPC(player.getName(), player.getName(), player.getLocation());
+		npc.setProtected(false);
 		Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new DecoyRunnable(npc, player), 0);
 	}
 
@@ -73,26 +76,30 @@ public class DecoyGadget extends Gadget {
 
 		NPC npc;
 		Player player;
+		LivingEntity decoy;
 		long started;
 
 		public DecoyRunnable(NPC npc, Player player) {
 			this.npc = npc;
 			this.player = player;
+			this.decoy = (LivingEntity) npc.getEntity();
 			started = new Date().getTime();
 		}
 
 		@Override
 		public void run() {
-			Bukkit.broadcastMessage("Health: " + ((LivingEntity) npc.getEntity()).getHealth());
-			if (TimeUnit.SECONDS.convert(new Date().getTime() - started, TimeUnit.MILLISECONDS) < 5) {
+			if (TimeUnit.SECONDS.convert(new Date().getTime() - started, TimeUnit.MILLISECONDS) < 5
+					&& decoy.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() - decoy.getHealth() > 0) {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
-					player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20, 1, false, true));
+					player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20, 1, false, true, false));
 				}, 0);
 
 				Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
 				return;
 			}
-			npc.destroy();
+			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
+				npc.destroy();
+			}, 0);
 
 		}
 
