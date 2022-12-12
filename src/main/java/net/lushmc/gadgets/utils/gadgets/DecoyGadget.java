@@ -88,6 +88,8 @@ public class DecoyGadget extends Gadget {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 					player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20, 1, false, true));
 				}, 0);
+
+				Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
 				return;
 			}
 			npc.destroy();
