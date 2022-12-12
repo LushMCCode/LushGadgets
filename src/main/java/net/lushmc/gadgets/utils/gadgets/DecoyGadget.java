@@ -89,7 +89,7 @@ public class DecoyGadget extends Gadget {
 		@Override
 		public void run() {
 			if (TimeUnit.SECONDS.convert(new Date().getTime() - started, TimeUnit.MILLISECONDS) < 5
-					&& decoy.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() - decoy.getHealth() > 0) {
+					) {
 				Bukkit.broadcastMessage("test4");
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 					player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20, 1, false, true, false));
