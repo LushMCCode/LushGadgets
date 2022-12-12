@@ -13,12 +13,16 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.Trait;
+import net.citizensnpcs.api.trait.trait.Equipment;
+import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
 import net.citizensnpcs.trait.versioned.AxolotlTrait;
+import net.citizensnpcs.trait.versioned.FoxTrait;
 import net.lushmc.core.utils.CoreUtils;
 import net.lushmc.core.utils.CosmeticUtils;
 import net.lushmc.core.utils.DebugUtils;
@@ -102,9 +106,7 @@ public class DecoyGadget extends Gadget {
 				return;
 			}
 			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
-				for (int i = 0; i < 100; i++) {
-					player.getWorld().spawnParticle(Particle.TOTEM, npc.getStoredLocation(), 1, 0, 0, 0, 1);
-				}
+				npc.getOrAddTrait(Equipment.class).set(EquipmentSlot.HAND, new ItemStack(Material.TOTEM_OF_UNDYING, 1));
 				npc.destroy();
 			}, 0);
 
