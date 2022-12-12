@@ -3,10 +3,12 @@ package net.lushmc.gadgets.utils.gadgets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.Player;
@@ -73,6 +75,20 @@ public class DecoyGadget extends Gadget {
 
 		NPC npc = NPCUtil.createNPC(player.getName(), player.getName(), player.getLocation());
 		npc.setProtected(false);
+		for (int i = 0; i < new Random().nextInt(30) + 70; i++) {
+			if (new Random().nextDouble() < 0.33)
+				player.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, player.getLocation().clone().add(
+						new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1), new Random().nextInt(3),
+						new Random().nextInt(3) * (new Random().nextBoolean() ? 1 : -1)), 1, 0, 0, 0, 0);
+		}
+		npc.getOrAddTrait(Equipment.class).set(EquipmentSlot.BOOTS, player.getEquipment().getBoots());
+		npc.getOrAddTrait(Equipment.class).set(EquipmentSlot.CHESTPLATE, player.getEquipment().getChestplate());
+		npc.getOrAddTrait(Equipment.class).set(EquipmentSlot.LEGGINGS, player.getEquipment().getLeggings());
+		npc.getOrAddTrait(Equipment.class).set(EquipmentSlot.HELMET, player.getEquipment().getHelmet());
+
+		npc.getOrAddTrait(Equipment.class).set(EquipmentSlot.HAND, player.getEquipment().getItemInMainHand());
+		npc.getOrAddTrait(Equipment.class).set(EquipmentSlot.OFF_HAND, player.getEquipment().getItemInOffHand());
+
 		Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new DecoyRunnable(npc, player), 0);
 	}
 
@@ -81,11 +97,14 @@ public class DecoyGadget extends Gadget {
 		NPC npc;
 		Player player;
 		long started;
+		ItemStack[] equipment;
 
 		public DecoyRunnable(NPC npc, Player player) {
 			this.npc = npc;
 			this.player = player;
 			started = new Date().getTime();
+			equipment = player.getEquipment().getArmorContents();
+			player.getEquipment().clear();
 		}
 
 		@Override
@@ -103,6 +122,7 @@ public class DecoyGadget extends Gadget {
 				npc.getOrAddTrait(Equipment.class).set(EquipmentSlot.HAND, new ItemStack(Material.TOTEM_OF_UNDYING, 1));
 				npc.despawn();
 				npc.destroy();
+				player.getEquipment().setArmorContents(equipment);
 			}, 0);
 
 		}
