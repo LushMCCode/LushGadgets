@@ -102,7 +102,7 @@ public class DecoyGadget extends Gadget {
 				return;
 			}
 			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
-				for (int i = 0; i > 100; i++) {
+				for (int i = 0; i < 100; i++) {
 					player.getWorld().spawnParticle(Particle.TOTEM, npc.getStoredLocation(), 1, 0, 0, 0, 1);
 				}
 				npc.destroy();
