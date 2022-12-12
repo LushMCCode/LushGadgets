@@ -104,7 +104,10 @@ public class DecoyGadget extends Gadget {
 			this.player = player;
 			started = new Date().getTime();
 			equipment = player.getEquipment().getArmorContents();
-			player.getEquipment().clear();
+			player.getEquipment().setHelmet(new ItemStack(Material.AIR));
+			player.getEquipment().setChestplate(new ItemStack(Material.AIR));
+			player.getEquipment().setLeggings(new ItemStack(Material.AIR));
+			player.getEquipment().setBoots(new ItemStack(Material.AIR));
 		}
 
 		@Override
