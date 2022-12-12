@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -101,6 +102,9 @@ public class DecoyGadget extends Gadget {
 				return;
 			}
 			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
+				for (int i = 0; i > 100; i++) {
+					player.getWorld().spawnParticle(Particle.TOTEM, npc.getStoredLocation(), 1, 0, 0, 0, 1);
+				}
 				npc.destroy();
 			}, 0);
 
