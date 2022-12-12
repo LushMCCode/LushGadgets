@@ -56,6 +56,7 @@ public class DecoyGadget extends Gadget {
 
 	@Override
 	public void activate(Player player, GadgetAction action) {
+		Bukkit.broadcastMessage("test");
 
 		if (CosmeticUtils.getGenericCooldown("decoy").contains(player.getUniqueId())) {
 			return;

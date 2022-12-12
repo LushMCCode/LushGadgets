@@ -55,7 +55,6 @@ public class PlayerListener implements Listener {
 			return;
 		if (GadgetAction.fromEvent(e) != null) {
 			if (GadgetUtils.getGadget(e.getPlayer()) != null) {
-				Bukkit.broadcastMessage("test");
 				GadgetUtils.getGadget(e.getPlayer()).activate(e.getPlayer(), GadgetAction.fromEvent(e));
 				e.setCancelled(true);
 				return;
