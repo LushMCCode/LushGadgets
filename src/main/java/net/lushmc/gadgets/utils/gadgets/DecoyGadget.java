@@ -90,6 +90,7 @@ public class DecoyGadget extends Gadget {
 		public void run() {
 			if (TimeUnit.SECONDS.convert(new Date().getTime() - started, TimeUnit.MILLISECONDS) < 5
 					&& decoy.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() - decoy.getHealth() > 0) {
+				Bukkit.broadcastMessage("test4");
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 					player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20, 1, false, true, false));
 				}, 0);
@@ -97,6 +98,7 @@ public class DecoyGadget extends Gadget {
 				Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
 				return;
 			}
+			Bukkit.broadcastMessage("test5");
 			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 				npc.destroy();
 			}, 0);
