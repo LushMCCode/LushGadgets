@@ -56,11 +56,11 @@ public class DecoyGadget extends Gadget {
 
 	@Override
 	public void activate(Player player, GadgetAction action) {
-
+		Bukkit.broadcastMessage("test2");
 		if (CosmeticUtils.getGenericCooldown("decoy").contains(player.getUniqueId())) {
 			return;
 		}
-		Bukkit.broadcastMessage("test2");
+		Bukkit.broadcastMessage("test3");
 		CosmeticUtils.getGenericCooldown("decoy").add(player.getUniqueId());
 
 		NPC npc = NPCUtil.createNPC(player.getName(), player.getName(), player.getLocation());
