@@ -13,13 +13,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import net.citizensnpcs.api.npc.NPC;
 import net.lushmc.core.utils.CoreUtils;
 import net.lushmc.core.utils.CosmeticUtils;
 import net.lushmc.core.utils.items.CustomItem;
 import net.lushmc.core.utils.particles.formats.DotFormat;
 import net.lushmc.gadgets.utils.GadgetUtils.GadgetAction;
 import net.lushmc.gadgets.utils.Utils;
-import net.lushmc.gadgets.utils.npcs.NPC;
 import net.lushmc.gadgets.utils.npcs.NPCUtil;
 
 public class DecoyGadget extends Gadget {
@@ -63,7 +63,6 @@ public class DecoyGadget extends Gadget {
 		CosmeticUtils.getGenericCooldown("decoy").add(player.getUniqueId());
 
 		NPC npc = NPCUtil.createNPC(player.getName(), player.getName(), player.getLocation());
-		npc.spawn();
 		Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), new DecoyRunnable(npc, player), 0);
 	}
 
@@ -81,7 +80,7 @@ public class DecoyGadget extends Gadget {
 
 		@Override
 		public void run() {
-			Bukkit.broadcastMessage("Class: " + Bukkit.getEntity(npc.getUUID()).getClass().toString());
+			Bukkit.broadcastMessage(npc.getEntity().getClass().toString());
 			if (TimeUnit.SECONDS.convert(new Date().getTime() - started, TimeUnit.MILLISECONDS) < 5) {
 				player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20, 1, false, true));
 				return;

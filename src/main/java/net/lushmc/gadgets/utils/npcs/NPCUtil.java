@@ -4,25 +4,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
 
-import net.lushmc.core.utils.UID;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
 
 public class NPCUtil {
 
-	private static Map<UID, NPC> npcs = new HashMap<>();
+	private static Map<Integer, NPC> npcs = new HashMap<>();
 
 	public void init() {
 
 	}
 
 	public static NPC createNPC(String displayname, String skin, Location loc) {
-		NPC npc = new NPC(displayname, loc, skin);
-		npcs.put(npc.getUID(), npc);
+		NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, skin);
+		npc.setName(displayname);
+		npc.spawn(loc);
+		npcs.put(npc.getId(), npc);
 		return npc;
 
 	}
 
-	public static Object getNPC(UID uid) {
-		return npcs.containsKey(uid) ? npcs.get(uid) : null;
+	public static Object getNPC(int id) {
+		return npcs.containsKey(id) ? npcs.get(id) : null;
 	}
 }
