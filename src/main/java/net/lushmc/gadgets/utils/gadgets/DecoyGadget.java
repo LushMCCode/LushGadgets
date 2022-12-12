@@ -7,8 +7,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -81,9 +83,11 @@ public class DecoyGadget extends Gadget {
 
 		@Override
 		public void run() {
-			Bukkit.broadcastMessage(npc.getEntity().getClass().toString());
+			Bukkit.broadcastMessage("Health: " + ((LivingEntity) npc.getEntity()).getHealth());
 			if (TimeUnit.SECONDS.convert(new Date().getTime() - started, TimeUnit.MILLISECONDS) < 5) {
-				player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20, 1, false, true));
+				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
+					player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20, 1, false, true));
+				}, 0);
 				return;
 			}
 			npc.destroy();
