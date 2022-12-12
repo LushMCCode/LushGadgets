@@ -20,6 +20,8 @@ import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.trait.versioned.AxolotlTrait;
 import net.lushmc.core.utils.CoreUtils;
 import net.lushmc.core.utils.CosmeticUtils;
+import net.lushmc.core.utils.DebugUtils;
+import net.lushmc.core.utils.CosmeticUtils.GenericCooldownRunnable;
 import net.lushmc.core.utils.items.CustomItem;
 import net.lushmc.core.utils.particles.formats.DotFormat;
 import net.lushmc.gadgets.utils.GadgetUtils.GadgetAction;
@@ -66,6 +68,11 @@ public class DecoyGadget extends Gadget {
 		}
 		Bukkit.broadcastMessage("test3");
 		CosmeticUtils.getGenericCooldown("decoygadget").add(player.getUniqueId());
+		Bukkit.getScheduler().runTaskLater(Utils.getPlugin(),
+				new GenericCooldownRunnable(cooldownbar, "decoygadget", player.getUniqueId(), new Date().getTime(),
+						DebugUtils.isDebugger(player.getUniqueId()) ? -1 : 10, () -> {
+						}),
+				1);
 
 		NPC npc = NPCUtil.createNPC(player.getName(), player.getName(), player.getLocation());
 		npc.setProtected(false);
@@ -88,8 +95,7 @@ public class DecoyGadget extends Gadget {
 
 		@Override
 		public void run() {
-			if (TimeUnit.SECONDS.convert(new Date().getTime() - started, TimeUnit.MILLISECONDS) < 5
-					&& decoy.getMaxHealth() - decoy.getHealth() > 0) {
+			if (TimeUnit.SECONDS.convert(new Date().getTime() - started, TimeUnit.MILLISECONDS) < 5) {
 				Bukkit.broadcastMessage("test4");
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 					player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20, 1, false, true, false));
