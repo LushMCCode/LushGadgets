@@ -37,7 +37,7 @@ public class DecoyGadget extends Gadget {
 		 * Create Item
 		 */
 		item = new CustomItem(Material.GOLD_INGOT);
-		item.setCustomModelData(10002);
+//		item.setCustomModelData(10002);
 		item.setDisplayName("&aDecoy");
 //		item.setDisplayName("&F&LBO&E&LOM &6&LBO&C&LOM");
 		List<String> lore = new ArrayList<>();
@@ -56,11 +56,11 @@ public class DecoyGadget extends Gadget {
 
 	@Override
 	public void activate(Player player, GadgetAction action) {
-		Bukkit.broadcastMessage("test");
 
 		if (CosmeticUtils.getGenericCooldown("decoy").contains(player.getUniqueId())) {
 			return;
 		}
+		Bukkit.broadcastMessage("test2");
 		CosmeticUtils.getGenericCooldown("decoy").add(player.getUniqueId());
 
 		NPC npc = NPCUtil.createNPC(player.getName(), player.getName(), player.getLocation());
