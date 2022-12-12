@@ -44,29 +44,27 @@ public class DecoyGadget extends Gadget {
 		 */
 		item = new CustomItem(Material.GOLD_INGOT);
 //		item.setCustomModelData(10002);
-		item.setDisplayName("&aDecoy");
+		item.setDisplayName("&a&lDecoy");
 //		item.setDisplayName("&F&LBO&E&LOM &6&LBO&C&LOM");
 		List<String> lore = new ArrayList<>();
 		lore.add("&7Gadget-ID: " + id);
 		lore.add("&8-------------");
-		lore.add("&c&lRIGHT CLICK&7 to deploy.");
+		lore.add("&a&lRIGHT CLICK&7 to deploy.");
 		item.setLore(lore);
 
 		/*
 		 * Create BossBar
 		 */
-		cooldownbar = Bukkit.createBossBar(CoreUtils.colorize(item.getDisplayName() + " &c&lCooldown"), BarColor.GREEN,
+		cooldownbar = Bukkit.createBossBar(CoreUtils.colorize(item.getDisplayName() + " &a&lCooldown"), BarColor.GREEN,
 				BarStyle.SOLID);
 
 	}
 
 	@Override
 	public void activate(Player player, GadgetAction action) {
-		Bukkit.broadcastMessage("test2");
 		if (CosmeticUtils.getGenericCooldown("decoygadget").contains(player.getUniqueId())) {
 			return;
 		}
-		Bukkit.broadcastMessage("test3");
 		CosmeticUtils.getGenericCooldown("decoygadget").add(player.getUniqueId());
 		Bukkit.getScheduler().runTaskLater(Utils.getPlugin(),
 				new GenericCooldownRunnable(cooldownbar, "decoygadget", player.getUniqueId(), new Date().getTime(),
@@ -83,20 +81,18 @@ public class DecoyGadget extends Gadget {
 
 		NPC npc;
 		Player player;
-		LivingEntity decoy;
 		long started;
 
 		public DecoyRunnable(NPC npc, Player player) {
 			this.npc = npc;
 			this.player = player;
-			this.decoy = (LivingEntity) npc.getEntity();
 			started = new Date().getTime();
 		}
 
 		@Override
 		public void run() {
-			if (TimeUnit.SECONDS.convert(new Date().getTime() - started, TimeUnit.MILLISECONDS) < 5) {
-				Bukkit.broadcastMessage("test4");
+			if (TimeUnit.SECONDS.convert(new Date().getTime() - started, TimeUnit.MILLISECONDS) < 10
+					&& npc.isSpawned()) {
 				Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 					player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 20, 1, false, true, false));
 				}, 0);
@@ -104,7 +100,6 @@ public class DecoyGadget extends Gadget {
 				Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.getPlugin(), this, 0);
 				return;
 			}
-			Bukkit.broadcastMessage("test5");
 			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 				npc.destroy();
 			}, 0);
