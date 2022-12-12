@@ -7,22 +7,16 @@ import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
-import net.citizensnpcs.trait.versioned.AxolotlTrait;
-import net.citizensnpcs.trait.versioned.FoxTrait;
 import net.lushmc.core.utils.CoreUtils;
 import net.lushmc.core.utils.CosmeticUtils;
 import net.lushmc.core.utils.DebugUtils;
@@ -48,7 +42,7 @@ public class DecoyGadget extends Gadget {
 		 * Create Item
 		 */
 		item = new CustomItem(Material.GOLD_INGOT);
-//		item.setCustomModelData(10002);
+		item.setCustomModelData(10002);
 		item.setDisplayName("&a&lDecoy");
 //		item.setDisplayName("&F&LBO&E&LOM &6&LBO&C&LOM");
 		List<String> lore = new ArrayList<>();
@@ -107,6 +101,7 @@ public class DecoyGadget extends Gadget {
 			}
 			Bukkit.getScheduler().runTaskLater(Utils.getPlugin(), () -> {
 				npc.getOrAddTrait(Equipment.class).set(EquipmentSlot.HAND, new ItemStack(Material.TOTEM_OF_UNDYING, 1));
+				npc.despawn();
 				npc.destroy();
 			}, 0);
 
